@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-#include <string>
 
 using namespace std;
 
@@ -17,15 +16,15 @@ public :
     {
         num = to_string(decInt);
     }
-    void operator+ (BigDecimalInt anotherDec)// add another BigDecimalInt
+    BigDecimalInt operator+ (BigDecimalInt anotherDec)// add another BigDecimalInt
     {
         string num1 = num, num2 = anotherDec.num, sumResult = "";
-        int max_size = max(num1.size(),num2.size());
-        while (num1.size() < max_size)
+        int max_size = max(num1.length(),num2.length());
+        while (num1.length() < max_size)
             num1 = "0" + num1;
-        while (num2.size() < max_size)
+        while (num2.length() < max_size)
             num2 = "0" + num2;
-        while (sumResult.size() < max_size)
+        while (sumResult.length() < max_size)
             sumResult += "0";
         int remainder = 0;
         for (int i=max_size-1 ; i>=0 ; i--)
@@ -36,12 +35,50 @@ public :
         }
         if (remainder > 0)
             sumResult = char(remainder+48) + sumResult;
-        cout << sumResult << endl;
-
+        return BigDecimalInt(sumResult);
     }
     BigDecimalInt operator- (BigDecimalInt anotherDec)// subtract another BigDecimalInt
     {
-
+        string num1 = num, num2 = anotherDec.num;
+        bool overload=false;
+        if (num1.length() < num2.length())
+        {
+            swap(num1,num2);
+            overload=true;
+        }
+        else if (num1.length() == num2.length())
+        {
+            for (int i =0 ; i<num1.length() ; i++)
+            {
+                if (num1[i]<num2[i])
+                {
+                    swap(num1,num2);
+                    overload=true;
+                    break;
+                }
+                else if (num1[i]>num2[i])
+                    break;
+                else
+                    continue;
+            }
+        }
+        while (num2.length() < num1.length())
+            num2 = "0" + num2;
+        bool borrow;
+        for (int i=num1.length()-1 ; i>=0 ; i--)
+        {
+            borrow=false;
+            int digitSub = (int(num1[i])-48) - (int(num2[i])-48);
+            digitSub < 0 ? (num1[i] = char((digitSub + 10) + 48)),borrow=true : (num1[i] = char(digitSub + 48));
+            borrow = digitSub < 0 ? true : false;
+            if (borrow)
+                num1[i-1] = char(int(num1[i-1])-1);
+        }
+        while (num1[0] == '0')
+            num1.erase(0,1);
+        if (overload)
+            num1 = "-" + num1;
+        return BigDecimalInt(num1);
     }
     void operator= (BigDecimalInt anotherDec)// assign with another BigDecimalInt
     {
@@ -66,7 +103,7 @@ int main()
     BigDecimalInt aa = BigDecimalInt(a);
     BigDecimalInt bb = BigDecimalInt(b);
     cout << aa << endl << bb << endl;
-    bb + aa;
+    cout << aa - bb;
     return 0;
 }
 
