@@ -41,6 +41,7 @@ public :
     }
     BigDecimalInt operator- (BigDecimalInt anotherDec)// subtract another BigDecimalInt
     {
+
     }
     void operator= (BigDecimalInt anotherDec)// assign with another BigDecimalInt
     {
@@ -67,4 +68,22 @@ int main()
     cout << aa << endl << bb << endl;
     bb + aa;
     return 0;
+}
+
+bool isValid(string &s)
+{
+    while (s[0]=='0')
+        s.erase(0,1);
+    while (s[1]=='0' && s[0]=='-')
+        s.erase(1,1);
+    if (s == "-" || s.length() == 0)
+        return false;
+    for (int i=0 ; i<s.length() ; i++)
+    {
+        if ((int(s[i])>=48 && int(s[i])<=57) || (int(s[0])==45 && i==0))
+            continue;
+        else
+            return false;
+    }
+    return true;
 }
