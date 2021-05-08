@@ -15,12 +15,10 @@ public :
             if ((int(decStr[i]) <= 57 && int(decStr[i]) >= 48) || (int(decStr[i])==45 && i == 0))
                 number += decStr[i];
         }
-        cout << number << endl;
     }
     BigDecimalInt (int decInt)// Initialize from integer
     {
         number = to_string(decInt);
-        cout << number << endl;
     }
     BigDecimalInt operator+ (BigDecimalInt anotherDec)// add another BigDecimalInt
     {
@@ -35,12 +33,21 @@ public :
     {
         return number.length();
     }
-    friend ostream& operator << (ostream& out, BigDecimalInt b)// print the BigDecimalInt
-    {
-    }
+    friend ostream& operator << (ostream& out, BigDecimalInt b);// print the BigDecimalInt
 };
+
+ostream& operator << (ostream& out, BigDecimalInt b)
+{
+    out << b.number;
+}
 
 int main()
 {
+    string a,b,c;
+    cin >> a >> b >> c;
+    BigDecimalInt aa = BigDecimalInt(a);
+    BigDecimalInt bb = BigDecimalInt(b);
+    BigDecimalInt cc = BigDecimalInt(c);
+    cout << aa << endl << bb << endl << cc << endl;
     return 0;
 }
