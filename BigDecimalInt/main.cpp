@@ -141,7 +141,7 @@ int main()
     while (true)
     {
         cout << "Welcome to FCI Calculator" << endl << "-------------------------" << endl;
-        cout << "1- Perform Addition\n2- Perform Subtraction\n3- Exit\n" << endl;
+        cout << "1- Perform Addition\n2- Perform Subtraction\n0- Exit\n" << endl;
         cin >> choose;
         if (choose == '1')
         {
@@ -211,7 +211,7 @@ int main()
                 cout << n1-n2 << endl;
             }
         }
-        else if (choose == '3')
+        else if (choose == '0')
             return 0;
         else
             cout << "Not a valid option" << endl;
