@@ -74,7 +74,7 @@ public :
             if (borrow)
                 num1[i-1] = char(int(num1[i-1])-1);
         }
-        while (num1[0] == '0')
+        while (num1[0] == '0' && num1.length() > 1)
             num1.erase(0,1);
         if (overload)
             num1 = "-" + num1;
@@ -95,18 +95,6 @@ ostream& operator << (ostream& out, BigDecimalInt b)
 {
     out << b.num;
 }
-
-int main()
-{
-    string a,b;
-    cin >> a >> b;
-    BigDecimalInt aa = BigDecimalInt(a);
-    BigDecimalInt bb = BigDecimalInt(b);
-    cout << aa << endl << bb << endl;
-    cout << aa - bb;
-    return 0;
-}
-
 bool isValid(string &s)
 {
     while (s[0]=='0')
@@ -123,4 +111,111 @@ bool isValid(string &s)
             return false;
     }
     return true;
+}
+void readNumbers(string& num1, string& num2)
+{
+    cout << "Enter num1: ";
+    cin >> num1;
+    while (!isValid(num1))
+    {
+        cout << "Enter a valid number (ONLY numbers and \"-\" sign)" << endl;
+        cout << "Enter num1: ";
+        cin >> num1;
+    }
+    cout << "num1 = " << num1 << endl;
+
+    cout << "Enter num2: ";
+    cin >> num2;
+    while (!isValid(num2))
+    {
+        cout << "Enter a valid number (ONLY numbers and \"-\" sign)" << endl;
+        cout << "Enter num2: ";
+        cin >> num2;
+    }
+    cout << "num2 = " << num2 << endl;
+}
+int main()
+{
+    string num1,num2;//numbers
+    char choose;
+    while (true)
+    {
+        cout << "Welcome to FCI Calculator" << endl << "-------------------------" << endl;
+        cout << "1- Perform Addition\n2- Perform Subtraction\n3- Exit\n" << endl;
+        cin >> choose;
+        if (choose == '1')
+        {
+            readNumbers(num1,num2);
+            cout << "num1 + num2 = ";
+            if (num1[0]=='-' && num2[0]=='-')//in case that (-num1)+(-num2)
+            {
+                num1.erase(0,1);
+                num2.erase(0,1);
+                BigDecimalInt n1(num1);
+                BigDecimalInt n2(num2);
+                cout << "-" << n1+n2 << endl;//-num1+-num2 == -(num1+num2)
+            }
+            else if (num1[0]=='-' && num2[0]!='-')//in case that (-num1)+(num2)
+            {
+                num1.erase(0,1);
+                BigDecimalInt n1(num1);
+                BigDecimalInt n2(num2);
+                cout << n2-n1 << endl;//-num1+num2 == num2-num1
+
+            }
+            else if (num1[0]!='-' && num2[0]=='-')//in case that (num1)+(-num2)
+            {
+                num2.erase(0,1);
+                BigDecimalInt n1(num1);
+                BigDecimalInt n2(num2);
+                cout << n1-n2 << endl;//num1+-num2 == num1-num2
+            }
+            else//the default case that num1+num2
+            {
+                BigDecimalInt n1(num1);
+                BigDecimalInt n2(num2);
+                cout << n1+n2 << endl;
+            }
+        }
+        else if (choose == '2')
+        {
+            readNumbers(num1,num2);
+            cout << "num1 - num2 = ";
+            if (num1[0]=='-' && num2[0]=='-')//in case that (-num1)-(-num2)
+            {
+                num1.erase(0,1);
+                num2.erase(0,1);
+                BigDecimalInt n1(num1);
+                BigDecimalInt n2(num2);
+                cout << n2-n1 << endl;//-num1--num2 == -num1+num2 == num2-num1
+            }
+            else if (num1[0]=='-' && num2[0]!='-')//in case that (-num1)-(num2)
+            {
+                num1.erase(0,1);
+                BigDecimalInt n1(num1);
+                BigDecimalInt n2(num2);
+                cout << "-" << n1+n2 << endl;//-num1-num2 == -(num1+num2)
+
+            }
+            else if (num1[0]!='-' && num2[0]=='-')//in case that (num1)-(-num2)
+            {
+                num2.erase(0,1);
+                BigDecimalInt n1(num1);
+                BigDecimalInt n2(num2);
+                cout << n1+n2 << endl;//num1--num2 == num1+num2
+            }
+            else//The default case that (num1)-(num2)
+            {
+                BigDecimalInt n1(num1);
+                BigDecimalInt n2(num2);
+                cout << n1-n2 << endl;
+            }
+        }
+        else if (choose == '3')
+            return 0;
+        else
+            cout << "Not a valid option" << endl;
+        cout << endl;
+
+    }
 }
